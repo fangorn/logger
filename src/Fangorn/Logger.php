@@ -1,9 +1,8 @@
 <?php
 
-require_once '../vendor/autoload.php';
+namespace Fangorn;
 
 use Psr\Log\LoggerInterface;
-
 
 class Logger implements LoggerInterface {
 
@@ -16,15 +15,12 @@ class Logger implements LoggerInterface {
     /** @var ?SyslogHandler $sysLogHandler */
     private $sysLogHandler = null;
 
-    function __construct($applicationName)
+    function __construct(string $applicationName)
     {
         $this->applicationName = $applicationName;
     }
 
-    /**
-     * @param FileHandler $handler
-     */
-    public function addHandler($handler):void {
+    public function addHandler(FileHandler $handler):void {
 
         if ($handler instanceof FileHandler) {
             $this->fileHandler = $handler;
