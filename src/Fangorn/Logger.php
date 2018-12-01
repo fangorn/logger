@@ -6,80 +6,78 @@ use Psr\Log\LoggerInterface;
 
 class Logger implements LoggerInterface {
 
-    /** @var string $applicationName  */
+    /** @var string */
     private $applicationName;
 
-    /** @var ?FileHandler $fileHandler */
-    private $fileHandler = null;
+    /** @var array */
+    private $handlers;
 
-    /** @var ?SyslogHandler $sysLogHandler */
-    private $sysLogHandler = null;
-
-    function __construct(string $applicationName)
-    {
+    function __construct(string $applicationName) {
         $this->applicationName = $applicationName;
+        $this->handlers = [];
     }
 
-    public function addHandler(FileHandler $handler):void {
-
-        if ($handler instanceof FileHandler) {
-            $this->fileHandler = $handler;
-            return;
+    public function addHandler($handler): void {
+        if (!method_exists($handler, writeToLog)) {
+            throw new Exception('Unable use metod writeToLog');
         }
-        $this->sysLogHandler = $handler;
+
+        if (isset($handler) && $handler != null) {
+            array_push($this->handlers, $handler);
+        }
     }
 
-    public function alert($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_ALERT);
-        syslog(LOG_ALERT, $message);
+    public function alert($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_ALERT);
+        }
     }
 
-    public function critical($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_CRIT);
-        syslog(LOG_CRIT, $message);
+    public function critical($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_CRIT);
+        }
     }
 
-    public function debug($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_DEBUG);
-        syslog(LOG_DEBUG, $message);
+    public function debug($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_DEBUG);
+        }
     }
 
-    public function emergency($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_EMERG);
-        syslog(LOG_EMERG, $message);
+    public function emergency($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_EMERG);
+        }
     }
 
-    public function error($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_ERR);
-        syslog(LOG_ERR, $message);
+    public function error($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_ERR);
+        }
     }
 
-    public function info($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_INFO);
-        syslog(LOG_INFO, $message);
+    public function info($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_INFO);
+        }
     }
 
-    public function log($level, $message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, $level);
-        syslog($level, $message);
+    public function log($level, $message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, $level);
+        }
     }
 
-    public function notice($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_NOTICE);
-        syslog(LOG_NOTICE, $message);
+    public function notice($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_NOTICE);
+        }
     }
 
-    public function warning($message, array $context = array())
-    {
-        $this->fileHandler->writeToLogFile($message, LOG_WARNING);
-        syslog(LOG_WARNING, $message);
+    public function warning($message, array $context = []): void {
+        foreach ($this->handlers as $handler) {
+            $handler->writeToLog($message, LOG_WARNING);
+        }
     }
 }

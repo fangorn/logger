@@ -5,8 +5,10 @@ class FileHandler {
     /** @var string */
     private $pathToLogFile;
 
-    /** @param string $pathToLogFile */
-    function __construct($pathToLogFile)
+    /**
+     * @param string $pathToLogFile
+     */
+    public function __construct($pathToLogFile)
     {
         $this->pathToLogFile = $pathToLogFile;
     }
@@ -15,10 +17,11 @@ class FileHandler {
         return $this->pathToLogFile;
     }
 
-    /** @param string $message
+    /**
+     *  @param string $message
      *  @param int $priority
      */
-    public function writeToLogFile($message, $priority): void {
-        file_put_contents($this->pathToLogFile, $priority . ': ' . $message . PHP_EOL );
+    public function writeToLog($message, $priority): void {
+        file_put_contents($this->pathToLogFile, $priority . date('[Y-m-d H:i:s] ') . ': ' . $message . PHP_EOL, FILE_APPEND);
     }
 }
