@@ -18,7 +18,7 @@ class Logger implements LoggerInterface {
     }
 
     public function addHandler($handler): void {
-        if (!method_exists($handler, writeToLog)) {
+        if (!method_exists($handler, 'writeToLog')) {
             throw new Exception('Unable use metod writeToLog');
         }
 

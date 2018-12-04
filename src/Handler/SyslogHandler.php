@@ -1,5 +1,7 @@
 <?php
 
+namespace Fangorn\Handler;
+
 class SyslogHandler {
 
     /** @var string */

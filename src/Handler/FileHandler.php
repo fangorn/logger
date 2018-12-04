@@ -1,5 +1,7 @@
 <?php
 
+namespace Fangorn\Handler;
+
 class FileHandler {
 
     /** @var string */
