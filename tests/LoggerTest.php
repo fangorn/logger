@@ -15,12 +15,12 @@ class LoggerTest extends TestCase {
         $errorMessage    = 'Log error string ' . $salt;
 
         $log = new Logger($applicationName);
-        $log->addHandler(new FileHandler('./mylog.log'));
+        $log->addHandler(new FileHandler('./local/tmp/mylog.log'));
 
         $log->warning($warningMessage);
         $log->error($errorMessage);
 
-        $fileContent = file_get_contents('./mylog.log');
+        $fileContent = file_get_contents('./local/tmp/mylog.log');
         assertEquals(substr_count($fileContent, $warningMessage), 1);
         assertEquals(substr_count($fileContent, $errorMessage), 1);
     }
@@ -48,12 +48,12 @@ class LoggerTest extends TestCase {
 
         $logger = new Logger($applicationName);
         $logger->addHandler(new SyslogHandler($applicationName));
-        $logger->addHandler(new FileHandler('./mylog.log'));
+        $logger->addHandler(new FileHandler('./local/tmp/mylog.log'));
         $logger->info($message);
 
         $cmd    = 'cat /var/log/syslog | grep ' . escapeshellarg($applicationName);
         $output = shell_exec($cmd);
-        $fileContent = file_get_contents('./mylog.log');
+        $fileContent = file_get_contents('./local/tmp/mylog.log');
         assertContains($applicationName . ": " . $message, $output);
         assertEquals(substr_count($fileContent, $message), 1);
     }

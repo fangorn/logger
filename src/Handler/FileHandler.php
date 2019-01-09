@@ -2,7 +2,7 @@
 
 namespace Fangorn\Handler;
 
-class FileHandler {
+class FileHandler implements IHandler {
 
     /** @var string */
     private $pathToLogFile;
@@ -10,7 +10,7 @@ class FileHandler {
     /**
      * @param string $pathToLogFile
      */
-    public function __construct($pathToLogFile)
+    public function __construct(string $pathToLogFile)
     {
         $this->pathToLogFile = $pathToLogFile;
     }
@@ -23,7 +23,7 @@ class FileHandler {
      *  @param string $message
      *  @param int $priority
      */
-    public function writeToLog($message, $priority): void {
+    public function writeToLog(string $message, int $priority): void {
         file_put_contents($this->pathToLogFile, $priority . date('[Y-m-d H:i:s] ') . ': ' . $message . PHP_EOL, FILE_APPEND);
     }
 }

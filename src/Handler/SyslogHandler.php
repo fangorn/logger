@@ -2,12 +2,12 @@
 
 namespace Fangorn\Handler;
 
-class SyslogHandler {
+class SyslogHandler implements IHandler {
 
     /** @var string */
     private $applicationName;
 
-    function __construct($applicationName)
+    public function __construct($applicationName)
     {
         $this->applicationName = $applicationName;
         openlog($this->applicationName, LOG_CONS, LOG_USER);
