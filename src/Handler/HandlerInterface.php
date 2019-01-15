@@ -2,6 +2,6 @@
 
 namespace Fangorn\Handler;
 
-interface IHandler {
+interface HandlerInterface {
     public function writeToLog(string $message, int $priority): void;
 }

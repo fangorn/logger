@@ -3,7 +3,7 @@
 namespace Fangorn;
 
 use Exception;
-use Fangorn\Handler\IHandler;
+use Fangorn\Handler\HandlerInterface;
 use Psr\Log\LoggerInterface;
 
 class Logger implements LoggerInterface {
@@ -11,7 +11,7 @@ class Logger implements LoggerInterface {
     /** @var string */
     private $applicationName;
 
-    /** @var IHandler[] */
+    /** @var HandlerInterface[] */
     private $handlers;
 
     function __construct(string $applicationName) {
@@ -19,7 +19,7 @@ class Logger implements LoggerInterface {
         $this->handlers = [];
     }
 
-    public function addHandler(IHandler $handler): void {
+    public function addHandler(HandlerInterface $handler): void {
         $this->handlers[] = $handler;
     }
 

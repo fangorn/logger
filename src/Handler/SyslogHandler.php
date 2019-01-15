@@ -2,7 +2,7 @@
 
 namespace Fangorn\Handler;
 
-class SyslogHandler implements IHandler {
+class SyslogHandler implements HandlerInterface {
 
     /** @var string */
     private $applicationName;
